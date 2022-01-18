@@ -1,18 +1,34 @@
 from django.db import models
 
 
+class Unit(models.Model):
+    name = models.CharField(max_length=10, blank=False)
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Resource(models.Model):
     name = models.CharField(max_length=50, blank=False)
 
+    def __str__(self):
+        return str(self.name)
 
-class Counter(models.Model):
-    unit = models.CharField(max_length=10, blank=False)
+
+class Meter(models.Model):
+    unit = models.ForeignKey(Unit, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=200, blank=False)
     resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Record(models.Model):
-    counter = models.ForeignKey(Counter, on_delete=models.CASCADE, blank=False)
+    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False)
     absolute_value = models.IntegerField(blank=False)
     relative_value = models.IntegerField(blank=False)
     date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.date} ({self.absolute_value})'
