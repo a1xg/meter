@@ -1,5 +1,22 @@
 {% extends 'app_meter/base.html' %}
 
 {% block content %}
-list
+<h4>Meters list</h4>
+<table>
+    <thead>
+        <tr>Meter name</tr>
+    <tr>Unit</tr>
+    <tr>Resource</tr>
+    </thead>
+    <tbody>
+    {% for item in meters %}
+        <tr>
+            <td><a href="meter/{{ item.id }}">{{ item.name }}</a></td>
+            <td>{{ item.unit }}</td>
+            <td>{{ item.resource }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="meter/create">Create new meter</a>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'app_meter/base.html' %}
+
+{% block content %}
+<h4>Create meter</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.name }}
+    {{ form.resource }}
+    {{ form.unit }}
+
+    <input type="submit" value="Submit">
+</form>
+
+
+{% endblock %}
