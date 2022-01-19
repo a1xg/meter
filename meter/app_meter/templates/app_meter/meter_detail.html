@@ -1,0 +1,42 @@
+{% extends 'app_meter/base.html' %}
+
+{% block content %}
+<h4>Meter detail</h4>
+<p>Name {{meter.name}}</p>
+<p>Unit {{meter.unit}}</p>
+<p>Resource {{meter.resource}}</p>
+<form action="/meter/{{ meter.id }}/delete">
+    <td><input method="post" type="submit" value="Delete" ></td>
+</form>
+<form action="/meter/{{ meter.id }}/update">
+    <td><input method="post" type="submit" value="Edit" ></td>
+</form>
+{% if readings %}
+    <p>Last readings: {{readings.last.absolute_value}}</p>
+    <p>Last readings date: {{readings.last.date}}</p>
+{% else %}
+    <p>Last readings: No data</p>
+    <p>Last readings date: No data</p>
+{% endif %}
+<h4>Meter readings</h4>
+<table>
+    <thead>
+    <tr>Absolute value</tr>
+    <tr>Relative value</tr>
+    <tr>Date</tr>
+    </thead>
+    <tbody>
+    {% if readings %}
+        {% for item in readings %}
+            <tr>
+                <td>{{ item.absolute_value }}</td>
+                <td>{{ item.relative_value }}</td>
+                <td>{{ item.date }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+    <p>Records not found</p>
+    {% endif %}
+    </tbody>
+</table>
+{% endblock %}

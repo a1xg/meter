@@ -27,8 +27,8 @@ class Meter(models.Model):
         return '/'
 
 
-class Record(models.Model):
-    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False, related_name='records')
+class Readings(models.Model):
+    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False, related_name='readings')
     absolute_value = models.IntegerField(blank=False)
     relative_value = models.IntegerField(blank=False)
     date = models.DateField(auto_now_add=True)

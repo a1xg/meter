@@ -1,0 +1,11 @@
+{% extends 'app_meter/base.html' %}
+
+{% block content %}
+<h4>Do you seriously want to remove the meter?</h4>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+
+
+{% endblock %}
