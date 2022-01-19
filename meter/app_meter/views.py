@@ -1,39 +1,29 @@
 from django.shortcuts import render
+from django.views.generic import UpdateView, CreateView, ListView, DetailView
 from django.http import HttpResponse, HttpResponseNotFound
 from . import models
 from . import forms
 
-def list_view(request):
-    meters = models.Meter.objects.all()
-    context = {'meters': meters}
-    return render(request, 'app_meter/list.html', context)
+
+class CreateMeterView(CreateView):
+    template_name = 'app_meter/create_meter.html'
+    model = models.Meter
+    form_class = forms.MeterForm
 
 
-def detail_view(request, pk):
-    meter = models.Meter.objects.get(id=pk)
-    print(f'meter: {meter}')
-    records = models.Record.objects.filter(meter=pk)
-    print(f'records: {records}')
-    context = {
-        'meter': meter,
-        'records': records
-    }
-
-    return render(request, 'app_meter/detail.html', context)
+class ListMetersView(ListView):
+    model = models.Meter
+    context_object_name = 'meters'
+    template_name = 'app_meter/list.html'
 
 
-def create_meter_view(request):
-    error = ''
-    if request.method == 'POST':
-        form = forms.MeterForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            error = 'error'
-    form = forms.MeterForm
-    context = {
-        'form':form,
-        'error': error
-    }
+class DetailMeterView(DetailView):
+    queryset = models.Meter.objects.all()
+    context_object_name = 'meter'
+    template_name = 'app_meter/detail.html'
 
-    return render(request, 'app_meter/create_meter.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['records'] = models.Record.objects.filter(meter=self.object)
+        return context
+

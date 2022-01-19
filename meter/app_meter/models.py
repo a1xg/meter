@@ -23,9 +23,12 @@ class Meter(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def get_absolute_url(self):
+        return '/'
+
 
 class Record(models.Model):
-    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False)
+    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False, related_name='records')
     absolute_value = models.IntegerField(blank=False)
     relative_value = models.IntegerField(blank=False)
     date = models.DateField(auto_now_add=True)
