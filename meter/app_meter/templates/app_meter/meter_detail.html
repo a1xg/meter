@@ -44,4 +44,7 @@
     {% endif %}
     </tbody>
 </table>
+<form action="/meter/{{ meter.id }}/readings-delete">
+    <td><input method="post" type="submit" value="Delete readings" ></td>
+</form>
 {% endblock %}
