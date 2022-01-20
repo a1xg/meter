@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import UpdateView, CreateView, ListView, DetailView, DeleteView
+from django.views.generic import UpdateView, CreateView, ListView, DetailView, DeleteView, FormView
 from . import models
 from . import forms
 
@@ -36,8 +36,20 @@ class DetailMeterView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         context['readings'] = models.Readings.objects.filter(meter=self.object)
-        print(context)
         return context
+
+
+class ReadingsFileFormView(FormView):
+    form_class = forms.ReadingsFileForm
+    template_name = 'app_meter/meter_detail.html'
+
+    def get_success_url(self):
+        return f"/meter/{self.kwargs['pk']}"
+
+    def form_valid(self, form):
+        form.process_data()
+        return super().form_valid(form)
+
 
 
 # TODO написать вьюхи для добавления единиц измерения и ресурсов, для загрузки CSV

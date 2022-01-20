@@ -18,6 +18,11 @@
     <p>Last readings: No data</p>
     <p>Last readings date: No data</p>
 {% endif %}
+<form action="/meter/{{ meter.id }}/file-upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="csv_file">
+    <input type="submit" value="Upload">
+</form>
 <h4>Meter readings</h4>
 <table>
     <thead>
