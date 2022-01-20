@@ -1,11 +1,11 @@
 {% extends 'app_meter/base.html' %}
 
 {% block content %}
-<h4>Do you seriously want to remove all readings for meter NAME?</h4>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-</form>
-
-
+<div style="border:2px solid gray; margin:10px; padding:10px">
+    <h4>Do you seriously want to remove all readings?</h4>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+</div>
 {% endblock %}

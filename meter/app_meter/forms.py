@@ -1,42 +1,41 @@
-import io
-import pandas as pd
-from django.forms import ModelForm, Form, FileField, ValidationError
+from django import forms
 from . import models
 
-# TODO написать форму загрузки показаний
-#  написать форму добавления ресурса и единиц измерения
-#  форму загрузки CSV и логику для валидации
+# TODO написать форму добавления ресурса и единиц измерения
 
 
-class MeterForm(ModelForm):
+class MeterForm(forms.ModelForm):
     class Meta:
         model = models.Meter
         fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={
+                "placeholder": "Meter name",
+            }),
+        }
 
-
-class UnitForm(ModelForm):
+class UnitForm(forms.ModelForm):
     class Meta:
         model = models.Unit
         fields = '__all__'
 
 
-class ResourceForm(ModelForm):
+class ResourceForm(forms.ModelForm):
     class Meta:
         model = models.Resource
         fields = '__all__'
 
 
-class ReadingsFileForm(Form):
-    csv_file = FileField()
+class ReadingsFileForm(forms.Form):
+    csv_file = forms.FileField()
 
     def check_file_type(self):
         """Checking the file type"""
         file = self.cleaned_data['csv_file']
-        print('CLEAN DATA FILE')
         if file:
             ext = file.name.split('.')[-1]
             if ext != 'csv':
-                raise ValidationError('File Type not supported')
+                raise forms.ValidationError('File Type not supported')
             return file
 
     # TODO написать сортировку, проверку формата записи, проверку наличия ошибок записи

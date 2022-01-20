@@ -31,7 +31,7 @@ class Readings(models.Model):
     meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False, related_name='readings')
     absolute_value = models.IntegerField(blank=False)
     relative_value = models.IntegerField(blank=False)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(auto_now_add=False)
 
     def __str__(self):
         return f'{self.date} ({self.absolute_value})'

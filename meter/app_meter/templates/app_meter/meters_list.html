@@ -2,6 +2,7 @@
 
 {% block content %}
 <h4>Meters list</h4>
+<div style="border:2px solid gray; margin:10px; padding:10px">
 <table>
     <thead>
         <tr>Meter name</tr>
@@ -21,5 +22,8 @@
     {% endfor %}
     </tbody>
 </table>
-<a href="meter/create">Create new meter</a>
+    <form method="get" action="meter/create">
+        <button type="submit">Create new meter</button>
+    </form>
+</div>
 {% endblock %}

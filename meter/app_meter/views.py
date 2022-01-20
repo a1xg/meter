@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import UpdateView, CreateView, ListView, DetailView, DeleteView, FormView
+from .services.data_processing import process_data, save_data
 import pandas as pd
 from . import models
 from . import forms
@@ -60,12 +61,13 @@ class ReadingsFileFormView(FormView):
         return f"/meter/{self.kwargs['pk']}"
 
     def form_valid(self, form):
-        print(f'kwargs {self.kwargs}')
         form.check_file_type()
-        form.process_data()
+        # Подготавливаем CSV файл для записи
+        df = process_data(csv_file=form.cleaned_data['csv_file'])
+        save_data(df=df, meter_pk=self.kwargs['pk'])
         # находим существующие записи по конкретному счетчику
         exist_readings = models.Readings.objects.filter(meter=self.kwargs['pk'])
-        print(f'exist readings {exist_readings}')
+
         return super().form_valid(form)
 
 
