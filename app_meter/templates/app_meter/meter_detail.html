@@ -22,7 +22,7 @@
     </form>
 </div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <p>Upload readings</p>
+    <p>Upload readings from CSV file</p>
     <form action="/meter/{{ meter.id }}/file-upload" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="csv_file">
@@ -51,6 +51,39 @@
         {% endif %}
         </tbody>
     </table>
+
+
+    <div id="container"></div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Historic World Population by Region'
+        },
+        xAxis: {
+            categories: [
+            // 'test1', 'test2', 'test3', 'test4', 'test5'
+                {% for r in readings %}
+                    '{{ r.date }}'{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ]
+        },
+        series: [{
+            name: 'Year 1800',
+            data: [
+            // 56, 37, 100, 90,74
+                {% for r in readings %}
+                   {{ r.relative_value }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ]
+        }]
+    });
+  </script>
+
+
     <form action="/meter/{{ meter.id }}/readings-delete">
         <td><input method="post" type="submit" value="Delete readings" ></td>
     </form>
