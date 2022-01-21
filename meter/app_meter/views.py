@@ -1,47 +1,46 @@
-from django.shortcuts import render
-from django.views.generic import UpdateView, CreateView, ListView, DetailView, DeleteView, FormView
-from .services.data_processing import process_data, save_data
+from django.views import generic
+from .services.data_processing import parse_data, save_data
 import pandas as pd
 from . import models
 from . import forms
 
 
-class CreateMeterView(CreateView):
+class CreateMeterView(generic.CreateView):
     model = models.Meter
     form_class = forms.MeterForm
     template_name = 'app_meter/meter_create_update.html'
 
 
-class UpdateMeterView(UpdateView):
+class UpdateMeterView(generic.UpdateView):
     model = models.Meter
     form_class = forms.MeterForm
     template_name = 'app_meter/meter_create_update.html'
 
 
-class DeleteMeterView(DeleteView):
+class DeleteMeterView(generic.DeleteView):
     model = models.Meter
     success_url = '/'
     template_name = 'app_meter/meter_delete.html'
 
 
-class ListMetersView(ListView):
+class ListMetersView(generic.ListView):
     model = models.Meter
     context_object_name = 'meters'
     template_name = 'app_meter/meters_list.html'
 
 
-class DetailMeterView(DetailView):
+class DetailMeterView(generic.DetailView):
     queryset = models.Meter.objects.all()
     context_object_name = 'meter'
     template_name = 'app_meter/meter_detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
+        context = super(generic.DetailView, self).get_context_data(**kwargs)
         context['readings'] = models.Readings.objects.filter(meter=self.object)
         return context
 
 
-class ReadingsDeleteView(DeleteView):
+class ReadingsDeleteView(generic.DeleteView):
     model = models.Readings
     success_url = '/'
     template_name = 'app_meter/readings_delete.html'
@@ -53,7 +52,7 @@ class ReadingsDeleteView(DeleteView):
         return f"/meter/{self.kwargs['pk']}"
 
 
-class ReadingsFileFormView(FormView):
+class ReadingsFileFormView(generic.FormView):
     form_class = forms.ReadingsFileForm
     template_name = 'app_meter/meter_detail.html'
 
@@ -63,7 +62,7 @@ class ReadingsFileFormView(FormView):
     def form_valid(self, form):
         form.check_file_type()
         # Подготавливаем CSV файл для записи
-        df = process_data(csv_file=form.cleaned_data['csv_file'])
+        df = parse_data(csv_file=form.cleaned_data['csv_file'])
         save_data(df=df, meter_pk=self.kwargs['pk'])
         # находим существующие записи по конкретному счетчику
         exist_readings = models.Readings.objects.filter(meter=self.kwargs['pk'])
@@ -71,13 +70,30 @@ class ReadingsFileFormView(FormView):
         return super().form_valid(form)
 
 
-
-# TODO написать вьюхи для добавления единиц измерения и ресурсов, для загрузки CSV
-class CreateUnit(CreateView):
+# TODO написать вьюхи для добавления единиц измерения и ресурсов
+class CreateUnitView(generic.CreateView):
     model = models.Unit
     form_class = forms.UnitForm
+    success_url = '/meter/create'
+    template_name = 'app_meter/resource_unit_add.html'
+
+    def get_context_data(self, **kwargs):
+        form = self.get_form()
+        return {
+            'title': 'Create new unit',
+            'form': form
+        }
 
 
-class CreateResource(CreateView):
+class CreateResourceView(generic.CreateView):
     model = models.Resource
     form_class = forms.ResourceForm
+    success_url = '/meter/create'
+    template_name = 'app_meter/resource_unit_add.html'
+
+    def get_context_data(self, **kwargs):
+        form = self.get_form()
+        return {
+            'title': 'Create new resource',
+            'form': form
+            }

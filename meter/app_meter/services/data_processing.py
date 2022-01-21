@@ -12,12 +12,12 @@ def save_data(df, meter_pk):
     readings = []
     for row in df.T.to_dict().values():
         row['meter'] = meter_instance
-        readings.append(models.Readings(**e))
+        readings.append(models.Readings(**row))
 
     models.Readings.objects.bulk_create(readings)
 
 
-def process_data(**kwargs):
+def parse_data(**kwargs):
     """
     Accepts an input file with readings and prepares it for writing to the database
     """
