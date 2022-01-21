@@ -13,23 +13,22 @@ class ReadingsProcessor:
         self.df = None
 
     # TODO написать логику сохранения df в базу
-    def save_data(self):
+    def save_data(self) -> None:
         """
         Iterates over the dataframe and generates models for writing to the database
         """
-        # Подготавливаем CSV файл для записи
+        # Preparing CSV for recording in the database
         self.parse_data(csv_file=self.csv_file)
         meter_instance = models.Meter.objects.get(id=self.meter_pk)
-        exist_readings = models.Readings.objects.filter(meter=self.meter_pk)
-        #print(f'exist readings {exist_readings}')
 
-        # TODO доработать логику для удаления старых показаний или для наложения новых показаний на старые
+        # Formation of objects for writing to the database
         readings = []
         for row in self.df.T.to_dict().values():
             row['meter'] = meter_instance
             readings.append(models.Readings(**row))
 
         models.Readings.objects.bulk_create(readings)
+        # TODO обработать исключение при невозможности записи из-за дублирования
 
     def parse_data(self, **kwargs) -> None:
         """
@@ -41,8 +40,10 @@ class ReadingsProcessor:
         new_df['absolute_value'] = df['VALUE'].astype(int)
         new_df['date'] = df['DATE']
         new_df = new_df.sort_values(by='date')
+
         # Adding a column of relative resource consumption values
         new_df['relative_value'] = new_df['absolute_value'].diff()
+
         # Logic for linking previous and next readings
         if self.last_readings:
             last_next_diff = new_df.iloc[0]['absolute_value'] - self.last_readings.absolute_value
@@ -50,4 +51,5 @@ class ReadingsProcessor:
 
         new_df['relative_value'] = new_df['relative_value'].fillna(0)
         new_df['relative_value'] = new_df['relative_value'].astype(int)
+
         self.df = new_df

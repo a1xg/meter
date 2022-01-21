@@ -28,10 +28,19 @@ class Meter(models.Model):
 
 
 class Readings(models.Model):
-    meter = models.ForeignKey(Meter, on_delete=models.CASCADE, blank=False, related_name='readings')
+    meter = models.ForeignKey(
+        Meter,
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name='readings'
+    )
     absolute_value = models.IntegerField(blank=False)
     relative_value = models.IntegerField(blank=False)
-    date = models.DateField(auto_now_add=False, unique=True)
+    date = models.DateField(auto_now_add=False)
+
+    class Meta:
+        unique_together = [['meter', 'date']]
 
     def __str__(self):
         return f'{self.date} ({self.absolute_value})'
+
