@@ -31,61 +31,47 @@
 </div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
     <h4>Meter readings</h4>
-    <table>
-        <thead>
-        <tr>Absolute value</tr>
-        <tr>Relative value</tr>
-        <tr>Date</tr>
-        </thead>
-        <tbody>
         {% if readings %}
-            {% for item in readings %}
-                <tr>
-                    <td>{{ item.absolute_value }} |</td>
-                    <td>{{ item.relative_value }} |</td>
-                    <td>{{ item.date }}</td>
-                </tr>
-            {% endfor %}
+        <div id="container"></div>
+            <script src="https://code.highcharts.com/highcharts.src.js"></script>
+            <script>
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '{{meter.name}}'
+                },
+                xAxis: {
+                    categories: [
+                    // 'test1', 'test2', 'test3', 'test4', 'test5'
+                        {% for r in readings %}
+                            '{{ r.date }}'{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    ]
+                },
+                yAxis: {
+                min: 0,
+                title: {
+                    text: '{{ meter.unit }}'
+                }
+                },
+                series: [{
+                    name: 'Consumption',
+                    data: [
+                    // 56, 37, 100, 90,74
+                        {% for r in readings %}
+                           {{ r.relative_value }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    ]
+                }]
+            });
+            </script>
+            <form action="/meter/{{ meter.id }}/readings-delete">
+                <input method="post" type="submit" value="Delete readings" >
+            </form>
         {% else %}
         <p>Records not found</p>
         {% endif %}
-        </tbody>
-    </table>
-
-
-    <div id="container"></div>
-  <script src="https://code.highcharts.com/highcharts.src.js"></script>
-  <script>
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Historic World Population by Region'
-        },
-        xAxis: {
-            categories: [
-            // 'test1', 'test2', 'test3', 'test4', 'test5'
-                {% for r in readings %}
-                    '{{ r.date }}'{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            ]
-        },
-        series: [{
-            name: 'Year 1800',
-            data: [
-            // 56, 37, 100, 90,74
-                {% for r in readings %}
-                   {{ r.relative_value }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            ]
-        }]
-    });
-  </script>
-
-
-    <form action="/meter/{{ meter.id }}/readings-delete">
-        <td><input method="post" type="submit" value="Delete readings" ></td>
-    </form>
 </div>
 {% endblock %}
