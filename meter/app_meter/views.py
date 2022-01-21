@@ -1,6 +1,5 @@
 from django.views import generic
-from .services.data_processing import parse_data, save_data
-import pandas as pd
+from .services.readings_processing import ReadingsProcessor
 from . import models
 from . import forms
 
@@ -61,11 +60,11 @@ class ReadingsFileFormView(generic.FormView):
 
     def form_valid(self, form):
         form.check_file_type()
-        # Подготавливаем CSV файл для записи
-        df = parse_data(csv_file=form.cleaned_data['csv_file'])
-        save_data(df=df, meter_pk=self.kwargs['pk'])
-        # находим существующие записи по конкретному счетчику
-        exist_readings = models.Readings.objects.filter(meter=self.kwargs['pk'])
+        processor = ReadingsProcessor(
+            csv_file=form.cleaned_data['csv_file'],
+            meter_pk=self.kwargs['pk']
+        )
+        processor.save_data()
 
         return super().form_valid(form)
 
