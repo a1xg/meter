@@ -1,5 +1,5 @@
 from django.views import generic
-from .services.readings_processing import ReadingsProcessor
+from .services.readings_service import ReadingsProcessor
 from . import models
 from . import forms
 

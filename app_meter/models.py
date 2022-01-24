@@ -40,6 +40,7 @@ class Readings(models.Model):
 
     class Meta:
         unique_together = [['meter', 'date']]
+        ordering = ('date',)
 
     def __str__(self):
         return f'{self.date} ({self.absolute_value})'
