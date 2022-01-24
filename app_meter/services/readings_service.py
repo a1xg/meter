@@ -8,7 +8,6 @@ class ReadingsProcessor:
         self.csv_file = csv_file
         self.meter_pk = meter_pk
         self.exist_readings = models.Readings.objects.filter(meter=self.meter_pk)
-
         self.df = None
 
     def save_data(self) -> None:
@@ -17,10 +16,10 @@ class ReadingsProcessor:
         """
         # Preparing CSV for recording in the database
         self._parse_data(csv_file=self.csv_file)
-        self._old_new_readings_diff()
+        self._get_readings_diff()
         self._create_or_update()
 
-    def _old_new_readings_diff(self):
+    def _get_readings_diff(self) -> None:
         """Extract the interval of existing records from the earliest to the record
         on the date of the first element of new indications, in order to
         correlate old and new indications"""

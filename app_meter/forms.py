@@ -1,8 +1,6 @@
 from django import forms
 from . import models
 
-# TODO написать форму добавления ресурса и единиц измерения
-
 
 class MeterForm(forms.ModelForm):
     class Meta:
@@ -13,6 +11,7 @@ class MeterForm(forms.ModelForm):
                 "placeholder": "Meter name",
             }),
         }
+
 
 class UnitForm(forms.ModelForm):
     class Meta:

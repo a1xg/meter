@@ -3,32 +3,33 @@ from .services.readings_service import ReadingsProcessor
 from . import models
 from . import forms
 
+# TODO написать тесты бизнес логики и докеризовать приложение
 
-class CreateMeterView(generic.CreateView):
+class MeterCreateView(generic.CreateView):
     model = models.Meter
     form_class = forms.MeterForm
     template_name = 'app_meter/meter_create_update.html'
 
 
-class UpdateMeterView(generic.UpdateView):
+class MeterUpdateView(generic.UpdateView):
     model = models.Meter
     form_class = forms.MeterForm
     template_name = 'app_meter/meter_create_update.html'
 
 
-class DeleteMeterView(generic.DeleteView):
+class MeterDeleteView(generic.DeleteView):
     model = models.Meter
     success_url = '/'
     template_name = 'app_meter/meter_delete.html'
 
 
-class ListMetersView(generic.ListView):
+class MeterListView(generic.ListView):
     model = models.Meter
     context_object_name = 'meters'
     template_name = 'app_meter/meters_list.html'
 
 
-class DetailMeterView(generic.DetailView):
+class MeterDetailView(generic.DetailView):
     queryset = models.Meter.objects.all()
     context_object_name = 'meter'
     template_name = 'app_meter/meter_detail.html'
@@ -69,8 +70,7 @@ class ReadingsFileFormView(generic.FormView):
         return super().form_valid(form)
 
 
-# TODO написать вьюхи для добавления единиц измерения и ресурсов
-class CreateUnitView(generic.CreateView):
+class UnitCreateView(generic.CreateView):
     model = models.Unit
     form_class = forms.UnitForm
     success_url = '/meter/create'
@@ -84,7 +84,7 @@ class CreateUnitView(generic.CreateView):
         }
 
 
-class CreateResourceView(generic.CreateView):
+class ResourceCreateView(generic.CreateView):
     model = models.Resource
     form_class = forms.ResourceForm
     success_url = '/meter/create'
