@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  meter_database:
+    image: postgres:10-alpine
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    ports:
+      - "5432-5432"
+
+  meter:
+    build: .
+    command : bash -c "
+      python manage.py migrate &&
+      python manage.py test &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+    - .:/usr/src/meter
+    ports:
+      - "8000:8000"
+    depends_on:
+      - meter_database

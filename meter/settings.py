@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-dh4dr-@$(1)u' \
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -75,13 +75,25 @@ WSGI_APPLICATION = 'meter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# local DB
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'meter_db',
+#        'USER': 'meter_admin',
+#        'PASSWORD': 'admin',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+# }
+
+# docker image db
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'meter_db',
-        'USER': 'meter_admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'meter_database',
         'PORT': '5432',
     }
 }

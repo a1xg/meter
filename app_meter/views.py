@@ -3,8 +3,6 @@ from .services.readings_service import ReadingsProcessor
 from . import models
 from . import forms
 
-# TODO докеризовать приложение
-
 
 class MeterCreateView(generic.CreateView):
     model = models.Meter

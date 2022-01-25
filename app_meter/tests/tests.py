@@ -53,7 +53,7 @@ class ReadingsProcessorTest(TestCase):
 
     def test_create_readings(self):
         path = os.path.dirname(os.path.realpath(__file__))
-        data = open(f'{path}\\readings_1.csv', 'rb')
+        data = open(path + '/readings_1.csv', 'rb')
         data = SimpleUploadedFile(
             content=data.read(),
             name=data.name,
@@ -129,9 +129,9 @@ class ReadingsProcessorTest(TestCase):
             readings[2].date.strftime("%Y-%m-%d")
         )
 
-    def test_delete_readings(self):
+    def test_delete_all_readings(self):
         path = os.path.dirname(os.path.realpath(__file__))
-        data = open(f'{path}\\readings_1.csv', 'rb')
+        data = open(path + '/readings_1.csv', 'rb')
         data = SimpleUploadedFile(
             content=data.read(),
             name=data.name,
@@ -155,7 +155,7 @@ class ReadingsProcessorTest(TestCase):
 
     def test_update_readings(self):
         path = os.path.dirname(os.path.realpath(__file__))
-        data = open(f'{path}\\readings_1.csv', 'rb')
+        data = open(path + '/readings_1.csv', 'rb')
         data_1 = SimpleUploadedFile(
             content=data.read(),
             name=data.name,
@@ -173,7 +173,7 @@ class ReadingsProcessorTest(TestCase):
         processor_obj = ReadingsProcessor(csv_file=data_1, meter_pk=meter.id)
         processor_obj.save_data()
 
-        data_2 = open(f'{path}\\readings_2.csv', 'rb')
+        data_2 = open(path + '/readings_2.csv', 'rb')
         data_2 = SimpleUploadedFile(
             content=data_2.read(),
             name=data_2.name,
@@ -243,7 +243,7 @@ class ReadingsProcessorTest(TestCase):
     def test_add_readings_in_batches(self):
         #Loading the first batch of readings
         path = os.path.dirname(os.path.realpath(__file__))
-        data_1 = open(f'{path}\\readings_1.csv', 'rb')
+        data_1 = open(path + '/readings_1.csv', 'rb')
         data_1 = SimpleUploadedFile(
             content=data_1.read(),
             name=data_1.name,
@@ -265,7 +265,7 @@ class ReadingsProcessorTest(TestCase):
         processor_obj.save_data()
 
         # Loading the second batch of readings
-        data_2 = open(f'{path}\\readings_3.csv', 'rb')
+        data_2 = open(path + '/readings_3.csv', 'rb')
         data_2 = SimpleUploadedFile(
             content=data_2.read(),
             name=data_2.name,
