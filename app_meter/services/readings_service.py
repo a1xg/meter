@@ -13,20 +13,16 @@ class ReadingsProcessor:
         self.df = None
 
     def save_data(self) -> None:
-        """
-        Iterates over the dataframe and generates
-        models for writing to the database
-        """
-        print(type(self.csv_file))
+
         # Preparing CSV for recording in the database
         self._parse_data(csv_file=self.csv_file)
         self._get_readings_diff()
         self._create_or_update()
 
     def _get_readings_diff(self) -> None:
-        """Extract the interval of existing records from the earliest to the record
-        on the date of the first element of new indications, in order to
-        correlate old and new indications"""
+        """Extract the interval of existing readings from the earliest to the record
+        on the date of the first element of new readings, in order to
+        correlate old and new readings"""
         if self.exist_readings:
             interval_exist_readings = self.exist_readings.filter(
                 date__range=[
@@ -35,7 +31,7 @@ class ReadingsProcessor:
                 ]
             )
             readings_list = list(interval_exist_readings)
-            if len(readings_list) >= 2:
+            if len(readings_list) >= 1:
                 prev_readings = readings_list[-1].absolute_value
                 diff = self.df.iloc[0]['absolute_value'] - prev_readings
                 self.df.loc[self.df.index[0], 'relative_value'] = diff
