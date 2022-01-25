@@ -6,7 +6,7 @@
     <h2>Create meter</h2>
 </div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <br method="post">
+    <form method="post">
         {% csrf_token %}
         <p>Meter name</p>
         {{ form.name }}
@@ -14,9 +14,7 @@
         {{ form.resource }}
         <p>Unit(<a href="unit-create/">add new unit</a>)</p>
         {{ form.unit }}</br></br>
-
         <input type="submit" value="Create meter">
-
     </form>
 
 
