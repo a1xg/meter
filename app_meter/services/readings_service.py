@@ -31,7 +31,7 @@ class ReadingsProcessor:
                 ]
             )
             readings_list = list(interval_exist_readings)
-            if len(readings_list) >= 1:
+            if len(readings_list) >= 2:
                 prev_readings = readings_list[-1].absolute_value
                 diff = self.df.iloc[0]['absolute_value'] - prev_readings
                 self.df.loc[self.df.index[0], 'relative_value'] = diff
