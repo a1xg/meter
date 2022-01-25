@@ -47,5 +47,4 @@ urlpatterns = [
         views.ResourceCreateView.as_view(),
         name='resource-create'
     ),
-
 ]

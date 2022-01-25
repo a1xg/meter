@@ -15,7 +15,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Counter',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('unit', models.CharField(max_length=10)),
                 ('name', models.CharField(max_length=200)),
             ],
@@ -23,23 +28,39 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Resource',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('name', models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
             name='Record',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('absolute_value', models.IntegerField()),
                 ('relative_value', models.IntegerField()),
                 ('date', models.DateField(auto_now_add=True)),
-                ('counter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_meter.counter')),
+                ('counter', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='app_meter.counter'
+                )),
             ],
         ),
         migrations.AddField(
             model_name='counter',
             name='resource',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app_meter.resource'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                to='app_meter.resource'
+            ),
         ),
     ]

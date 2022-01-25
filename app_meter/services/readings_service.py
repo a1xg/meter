@@ -7,13 +7,17 @@ class ReadingsProcessor:
     def __init__(self, csv_file, meter_pk):
         self.csv_file = csv_file
         self.meter_pk = meter_pk
-        self.exist_readings = models.Readings.objects.filter(meter=self.meter_pk)
+        self.exist_readings = models.Readings.objects.filter(
+            meter=self.meter_pk
+        )
         self.df = None
 
     def save_data(self) -> None:
         """
-        Iterates over the dataframe and generates models for writing to the database
+        Iterates over the dataframe and generates
+        models for writing to the database
         """
+        print(type(self.csv_file))
         # Preparing CSV for recording in the database
         self._parse_data(csv_file=self.csv_file)
         self._get_readings_diff()
@@ -25,16 +29,21 @@ class ReadingsProcessor:
         correlate old and new indications"""
         if self.exist_readings:
             interval_exist_readings = self.exist_readings.filter(
-                date__range=[self.exist_readings.first().date, self.df.iloc[0]['date']]
+                date__range=[
+                    self.exist_readings.first().date,
+                    self.df.iloc[0]['date']
+                ]
             )
             readings_list = list(interval_exist_readings)
             if len(readings_list) >= 2:
-                prev_readings = readings_list[-2].absolute_value
-                last_next_diff = self.df.iloc[0]['absolute_value'] - prev_readings
-                self.df.loc[self.df.index[0], 'relative_value'] = last_next_diff
+                prev_readings = readings_list[-1].absolute_value
+                diff = self.df.iloc[0]['absolute_value'] - prev_readings
+                self.df.loc[self.df.index[0], 'relative_value'] = diff
 
     def _create_or_update(self) -> None:
-        """Creates new or updates old records based on the date of reporting"""
+        """Creates new or updates old records
+        based on the date of reporting
+        """
         meter_instance = models.Meter.objects.get(id=self.meter_pk)
         readings_to_update = []
         readings_to_create = []
@@ -51,13 +60,19 @@ class ReadingsProcessor:
                 readings_to_create.append(models.Readings(**row))
 
         if readings_to_create:
-            models.Readings.objects.bulk_create(readings_to_create)
+            models.Readings.objects.bulk_create(
+                readings_to_create
+            )
         if readings_to_update:
-            models.Readings.objects.bulk_update(readings_to_update, ['relative_value', 'absolute_value'])
+            models.Readings.objects.bulk_update(
+                readings_to_update,
+                ['relative_value', 'absolute_value']
+            )
 
     def _parse_data(self, **kwargs) -> None:
         """
-        Accepts an input file with readings and prepares it for writing to the database
+        Accepts an input file with readings and
+        prepares it for writing to the database
         """
         file = io.TextIOWrapper(kwargs['csv_file'].file)
         df = pd.read_csv(file, sep=',', parse_dates=['DATE'])

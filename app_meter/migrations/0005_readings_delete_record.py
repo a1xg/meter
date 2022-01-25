@@ -14,11 +14,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Readings',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
                 ('absolute_value', models.IntegerField()),
                 ('relative_value', models.IntegerField()),
                 ('date', models.DateField(auto_now_add=True)),
-                ('meter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='records', to='app_meter.meter')),
+                ('meter', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='records',
+                    to='app_meter.meter'
+                )),
             ],
         ),
         migrations.DeleteModel(

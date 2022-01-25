@@ -2,23 +2,41 @@ from django.db import models
 
 
 class Unit(models.Model):
-    name = models.CharField(max_length=10, blank=False, unique=True)
+    name = models.CharField(
+        max_length=10,
+        blank=False,
+        unique=True
+    )
 
     def __str__(self):
         return str(self.name)
 
 
 class Resource(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(
+        max_length=50,
+        blank=False,
+        unique=True
+    )
 
     def __str__(self):
         return str(self.name)
 
 
 class Meter(models.Model):
-    unit = models.ForeignKey(Unit, on_delete=models.DO_NOTHING)
-    name = models.CharField(max_length=200, blank=False, unique=True)
-    resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
+    unit = models.ForeignKey(
+        Unit,
+        on_delete=models.DO_NOTHING
+    )
+    name = models.CharField(
+        max_length=200,
+        blank=False,
+        unique=True
+    )
+    resource = models.ForeignKey(
+        Resource,
+        on_delete=models.DO_NOTHING
+    )
 
     def __str__(self):
         return str(self.name)
@@ -44,4 +62,3 @@ class Readings(models.Model):
 
     def __str__(self):
         return f'{self.date} ({self.absolute_value})'
-

@@ -3,7 +3,8 @@ from .services.readings_service import ReadingsProcessor
 from . import models
 from . import forms
 
-# TODO написать тесты бизнес логики и докеризовать приложение
+# TODO докеризовать приложение
+
 
 class MeterCreateView(generic.CreateView):
     model = models.Meter

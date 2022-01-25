@@ -19,6 +19,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='readings',
             name='meter',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='readings', to='app_meter.meter'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='readings',
+                to='app_meter.meter'
+            ),
         ),
     ]
