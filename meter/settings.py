@@ -76,16 +76,18 @@ WSGI_APPLICATION = 'meter.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # local DB
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'meter_db',
-#        'USER': 'meter_admin',
-#        'PASSWORD': 'admin',
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-# }
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'meter_db',
+        'USER': 'meter_admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+'''
 
 # docker image db
 DATABASES = {

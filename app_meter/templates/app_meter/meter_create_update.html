@@ -1,9 +1,11 @@
 {% extends 'app_meter/base.html' %}
 
 {% block content %}
-<a href="/">To the list of all meters</a>
+<div style="margin:10px; padding:10px">
+    <a href="/">To the list of all meters</a>
+    <h2>Create meter</h2>
+</div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <h3>Create meter</h3>
     <br method="post">
         {% csrf_token %}
         <p>Meter name</p>
