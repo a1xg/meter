@@ -1,20 +1,11 @@
 {% extends 'app_meter/base.html' %}
 
 {% block content %}
+<div style="margin:10px; padding:10px">
 <a href="/">To the list of all meters</a>
-<div style="border:2px solid gray; margin:10px; padding:10px">
-    <h4>Meter detail</h4>
-    <p>Name {{meter.name}}</p>
-    <p>Unit {{meter.unit}}</p>
-    <p>Resource {{meter.resource}}</p>
-    {% if readings %}
-        <p>Last readings: {{readings.last.absolute_value}}</p>
-        <p>Last readings date: {{readings.last.date}}</p>
-    {% else %}
-        <p>Last readings: No data</p>
-        <p>Last readings date: No data</p>
-    {% endif %}
-    <form action="/meter/{{ meter.id }}/delete">
+
+<h2>{{meter.name}}</h2>
+        <form action="/meter/{{ meter.id }}/delete">
         <td><input method="post" type="submit" value="Delete" ></td>
     </form>
     <form action="/meter/{{ meter.id }}/update">
@@ -22,15 +13,50 @@
     </form>
 </div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <p>Upload readings from CSV file</p>
+    <table width="100%">
+        <tbody>
+        <tr>
+             <td>
+                 <b>Resource</b> {{meter.resource}}
+            </td>
+            <td>
+                <b>Unit</b> {{meter.unit}}
+            </td>
+        </tr>
+        <tr>
+             <td>
+            {% if readings %}
+                <b>Last readings:</b> {{readings.last.absolute_value}}
+            {% else %}
+                <b>Last readings:</b> No data
+            {% endif %}
+            </td>
+            <td>
+            {% if readings %}
+                <b>Last readings date:</b> {{readings.last.date}}
+            {% else %}
+                <b>Last readings date:</b> No data
+            {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="margin:10px; padding:10px">
+    <h2>Upload readings from CSV file</h2>
+</div>
+<div style="border:2px solid gray; margin:10px; padding:10px">
     <form action="/meter/{{ meter.id }}/file-upload" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="csv_file">
         <input type="submit" value="Upload">
     </form>
 </div>
+<div style="margin:10px; padding:10px">
+    <h2>Meter readings</h2>
+</div>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <h4>Meter readings</h4>
+
         {% if readings %}
         <div id="container"></div>
             <script src="https://code.highcharts.com/highcharts.src.js"></script>

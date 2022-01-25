@@ -3,17 +3,22 @@
 {% block content %}
 <a href="/">To the list of all meters</a>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-    <h4>Create new meter</h4>
-    <form method="post">
+    <h3>Create meter</h3>
+    <br method="post">
         {% csrf_token %}
+        <p>Meter name</p>
         {{ form.name }}
+        <p>Resource(<a href="resource-create/">add new resource</a>)</p>
         {{ form.resource }}
-        {{ form.unit }}
-        <input type="submit" value="Submit">
+        <p>Unit(<a href="unit-create/">add new unit</a>)</p>
+        {{ form.unit }}</br></br>
+
+        <input type="submit" value="Create meter">
+
     </form>
 
-    <a href="resource-create/">add new resource</a>
-    <a href="unit-create/">add new unit</a>
+
+
 
 </div>
 

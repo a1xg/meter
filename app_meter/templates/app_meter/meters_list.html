@@ -3,11 +3,13 @@
 {% block content %}
 <h4>Meters list</h4>
 <div style="border:2px solid gray; margin:10px; padding:10px">
-<table>
+<table width="100%">
     <thead>
-        <tr>Meter name</tr>
-    <tr>Unit</tr>
-    <tr>Resource</tr>
+    <tr>
+        <td><b>Meter name</b></td>
+        <td><b>Unit</b></td>
+        <td><b>Resource</b></td>
+    </tr>
     </thead>
     <tbody>
     {% for item in meters %}
